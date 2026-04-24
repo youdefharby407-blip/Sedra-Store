@@ -2596,10 +2596,37 @@
                         placeholder="your@email.com"></div>
                 <div class="form-section-title" style="margin-top:28px">Delivery Address</div>
                 <div class="form-row">
-                    <div class="form-group"><label>City *</label><input type="text" id="custCity" placeholder="Cairo">
+                    <div class="form-group"><label>Governorate *</label>
+                        <select id="custGovernorate" onchange="updateDistricts()">
+                            <option value="">Select Governorate</option>
+                            <option value="Cairo">Cairo</option>
+                            <option value="Giza">Giza</option>
+                            <option value="Alexandria">Alexandria</option>
+                            <option value="Mansoura">Mansoura</option>
+                            <option value="Tanta">Tanta</option>
+                            <option value="Zagazig">Zagazig</option>
+                            <option value="Suez">Suez</option>
+                            <option value="Luxor">Luxor</option>
+                            <option value="Aswan">Aswan</option>
+                            <option value="Ismailia">Ismailia</option>
+                            <option value="Fayoum">Fayoum</option>
+                            <option value="Beni Suef">Beni Suef</option>
+                            <option value="Minya">Minya</option>
+                            <option value="Assiut">Assiut</option>
+                            <option value="Sohag">Sohag</option>
+                            <option value="Qena">Qena</option>
+                            <option value="Damietta">Damietta</option>
+                            <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                            <option value="Sharqia">Sharqia</option>
+                            <option value="Monufia">Monufia</option>
+                            <option value="Qalyubia">Qalyubia</option>
+                        </select>
                     </div>
-                    <div class="form-group"><label>District</label><input type="text" id="custDistrict"
-                            placeholder="Maadi"></div>
+                    <div class="form-group"><label>District/City *</label>
+                        <select id="custDistrict" disabled>
+                            <option value="">Select Governorate first</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group"><label>Street Address *</label><input type="text" id="custAddress"
                         placeholder="Street name and number"></div>
@@ -2610,7 +2637,7 @@
                 <div class="location-display" id="locationDisplay"></div>
                 <div class="form-section-title" style="margin-top:28px">Delivery Schedule</div>
                 <div class="form-row">
-                    <div class="form-group"><label>Preferred Date *</label><input type="date" id="deliveryDate"></div>
+                    <div class="form-group"><label>Preferred Date</label><input type="date" id="deliveryDate"></div>
                     <div class="form-group"><label>Preferred Time</label>
                         <select id="deliveryTime">
                             <option value="">Select time slot</option>
@@ -2667,7 +2694,8 @@
                             <th>#</th>
                             <th>Customer</th>
                             <th>Phone</th>
-                            <th>City</th>
+                            <th>Governorate</th>
+                            <th>District</th>
                             <th>Items</th>
                             <th>Total</th>
                             <th>Date</th>
@@ -2708,7 +2736,7 @@
             { id: 13, name: 'Jade Mihrab Rug', cat: 'mihrab', desc: 'Jade green mihrab with silver thread. 115×75cm.', price: 400, imgSrc: 'mp5.jpeg', icon: '🏛', badge: null },
             { id: 14, name: 'Burgundy Arch Mat', cat: 'mihrab', desc: 'Deep burgundy mihrab with gold trim. 120×80cm.', price: 400, imgSrc: 'mp6.jpeg', icon: '🏛', badge: null },
             { id: 15, name: 'Ivory Mihrab', cat: 'mihrab', desc: 'Ivory base mihrab rug with soft sheen. 110×70cm.', price: 400, imgSrc: 'mp7.jpeg', icon: '🏛', badge: null },
-            { id: 16, name: 'Heritage Mihrab', cat: 'mihrab', desc: 'Heritage-inspired mihrab with tasseled edge. 120×80cm.', price: 400, imgSrc: 'mp8.jpeg', icon: '🏛', badge: 'Loved' },
+            { id: 16, name: 'Heritage Mihrab', cat: 'mihrab', desc: 'Heritage-inspired mihrab with tasseled edge. 120×80cm.', price: 700, imgSrc: 'mp8.jpeg', icon: '🏛', badge: 'Loved' },
             // Masnad
             { id: 17, name: 'Masnad Back Support', cat: 'masnad', desc: 'Ergonomic back support for long prayer sessions. Adjustable angle.', price: 380, imgSrc: 'm1.jpeg', icon: '🪑', badge: 'Best Seller' },
             { id: 18, name: 'Masnad Premium', cat: 'masnad', desc: 'Premium memory foam masnad with velvet cover. Portable design.', price: 420, imgSrc: 'm2.jpeg', icon: '🪑', badge: null },
@@ -3015,15 +3043,61 @@
             document.getElementById('checkoutModal').classList.remove('open');
         }
 
+        // ===== GOVERNORATE & DISTRICTS =====
+        const governorateData = {
+            'Cairo': ['Maadi', 'Helwan', 'Nasr City', 'New Cairo', 'El-Mokattam', 'Downtown', 'Giza', '6th of October', 'Sheikh Zayed', 'Al-Haram', 'Imbaba', 'Bulaq', 'Shubra', 'El-Marg'],
+            'Giza': ['Giza', 'Dokki', 'Mohandessin', 'Agouza', 'Faisal', 'Haram', 'Kerdasa', 'Al-Mansoura', 'Talbia', 'Kafr Talat'],
+            'Alexandria': ['Alexandria', 'Montaza', 'Smouha', 'Sidi Gaber', 'Kafr Abdou', 'Borg El Arab', 'El-Max', 'Amreya', 'El-Ibrahimia', 'Victoria'],
+            'Mansoura': ['Mansoura', 'Talkha', 'Sherbin', 'Mahalat Marhoul', 'El-Maghra', 'Aga', 'Belqas', 'Tartar'],
+            'Tanta': ['Tanta', 'Kafr El Sheikh', 'El-Bagour', 'Samanoud', 'El-Riyad', 'Qeutha'],
+            'Zagazig': ['Zagazig', 'Abu Kebir', 'Sharqia', 'El-Husseiniya', 'Deirawas', 'Kafr Saqr', 'Faqous'],
+            'Suez': ['Suez', 'Ain Sokhna', 'Ras Sudr', 'Ataka', 'Suez'],
+            'Luxor': ['Luxor', 'Qurna', 'Esna', 'El-Bayadeya', 'Armant', 'Tarkhan'],
+            'Aswan': ['Aswan', 'Abu Simbel', 'Edfu', 'Kom Ombo', 'Daraw', 'Kalabsha'],
+            'Ismailia': ['Ismailia', 'Port Said', 'Suez', 'El-Qantara', 'El-Tal El-Kabeer'],
+            'Fayoum': ['Fayoum', 'El-Masjid', 'Tamiya', 'Etsa', 'Sinnuris', 'Qasr Karat', 'El-Bahnasa'],
+            'Beni Suef': ['Beni Suef', 'El-Wasta', 'Beba', 'Somasta', 'El-Fashn', 'Mih', 'Naser'],
+            'Minya': ['Minya', 'El-Minya', 'Beni Mazar', 'Magd', 'Matai', 'Samalut', 'Mallawi', 'Abu Qurqas'],
+            'Assiut': ['Assiut', 'El-Balyna', 'Sahel Selim', 'Dayrout', 'El-Gonamia', 'Manfalut', 'Abnub'],
+            'Sohag': ['Sohag', 'Sakulta', 'Girga', 'El-Maragha', 'El-Mansha', 'Tahta', 'El-Balab'],
+            'Qena': ['Qena', 'Qous', 'Naqada', 'Dishna', 'Farshout', 'El-Waqf', 'Kous'],
+            'Damietta': ['Damietta', 'Kafr Saad', 'El-Zarka', 'Ras El Bar', 'Faraskour', 'Kafr El-Sheikh'],
+            'Kafr El Sheikh': ['Kafr El Sheikh', 'Desouk', 'Baltim', 'Sidi Salem', 'Metoubes', 'Kafr El Sheikh'],
+            'Sharqia': ['Sharqia', 'Zagazig', 'Abu Kebir', 'El-Husseiniya', 'Deirawas', 'Kafr Saqr'],
+            'Monufia': ['Monufia', 'Shebin El-Kom', 'Tala', 'Menouf', 'Sers El-Layan', 'Ashmoun', 'El-Bagoor'],
+            'Qalyubia': ['Qalyubia', 'Banha', 'Shubra El-Kheima', 'Qalyub', 'Kafr Shukr', 'El-Khosos', 'Toub']
+        };
+
+        function updateDistricts() {
+            const governorate = document.getElementById('custGovernorate').value;
+            const districtSelect = document.getElementById('custDistrict');
+
+            districtSelect.innerHTML = '<option value="">Select District/City</option>';
+
+            if (governorate && governorateData[governorate]) {
+                districtSelect.disabled = false;
+                governorateData[governorate].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    districtSelect.appendChild(option);
+                });
+            } else {
+                districtSelect.disabled = true;
+                districtSelect.innerHTML = '<option value="">Select Governorate first</option>';
+            }
+        }
+
         // ===== SUBMIT ORDER =====
         async function submitOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
-            const city = document.getElementById('custCity').value.trim();
+            const governorate = document.getElementById('custGovernorate').value;
+            const district = document.getElementById('custDistrict').value;
             const address = document.getElementById('custAddress').value.trim();
             const date = document.getElementById('deliveryDate').value;
 
-            if (!name || !phone || !city || !address || !date) {
+            if (!name || !phone || !governorate || !district || !address) {
                 alert('Please fill in all required fields (marked with *).');
                 return;
             }
@@ -3033,7 +3107,6 @@
             btn.textContent = 'Processing...';
 
             const email = document.getElementById('custEmail').value;
-            const district = document.getElementById('custDistrict').value;
             const notes = document.getElementById('custNotes').value;
             const time = document.getElementById('deliveryTime').value;
             const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
@@ -3048,7 +3121,7 @@
 📧 Email: ${email || 'N/A'}
 
 📍 Address:
-${city}${district ? ', ' + district : ''}
+${governorate}${district ? ', ' + district : ''}
 ${address}
 ${notes ? 'Notes: ' + notes : ''}
 
@@ -3062,7 +3135,7 @@ ${itemsList}
 📅 Delivery: ${date} — ${time || 'Flexible'}
         `.trim();
 
-            const order = { name, phone, city, address, items: [...cart], total, date, status: 'pending', created: new Date().toLocaleString() };
+            const order = { name, phone, governorate, district, address, items: [...cart], total, date, status: 'pending', created: new Date().toLocaleString() };
             orders.push(order);
             localStorage.setItem('sedra_orders', JSON.stringify(orders));
 
@@ -3082,10 +3155,12 @@ ${itemsList}
             document.getElementById('successOverlay').classList.add('open');
             btn.disabled = false;
             btn.textContent = '✦   Place Order   ✦';
-            ['custName', 'custPhone', 'custEmail', 'custCity', 'custDistrict', 'custAddress', 'custNotes', 'deliveryDate'].forEach(id => {
+            ['custName', 'custPhone', 'custEmail', 'custGovernorate', 'custDistrict', 'custAddress', 'custNotes', 'deliveryDate'].forEach(id => {
                 document.getElementById(id).value = '';
             });
             document.getElementById('deliveryTime').selectedIndex = 0;
+            document.getElementById('custDistrict').innerHTML = '<option value="">Select Governorate first</option>';
+            document.getElementById('custDistrict').disabled = true;
             locationData = null;
             document.getElementById('locationDisplay').classList.remove('show');
         }
@@ -3120,7 +3195,7 @@ ${itemsList}
                 document.querySelector('.orders-table').style.display = 'table';
                 tbody.innerHTML = od.map((o, i) => `
                 <tr>
-                    <td>#${i + 1}</td><td>${o.name}</td><td>${o.phone}</td><td>${o.city}</td>
+                    <td>#${i + 1}</td><td>${o.name}</td><td>${o.phone}</td><td>${o.governorate || '-'}</td><td>${o.district || '-'}</td>
                     <td>${o.items.map(it => it.name).join(', ')}</td>
                     <td>${o.total} EGP</td><td>${o.created}</td>
                     <td>
