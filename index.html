@@ -77,7 +77,6 @@
             transition: width 0.4s, height 0.4s;
         }
 
-        /* SCROLLBAR */
         ::-webkit-scrollbar {
             width: 3px;
         }
@@ -91,7 +90,6 @@
             border-radius: 2px;
         }
 
-        /* NOISE */
         body::before {
             content: '';
             position: fixed;
@@ -496,58 +494,74 @@
         /* REVEAL ANIMATIONS */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s ease, transform 0.9s var(--transition);
+            transform: translateY(48px) scale(0.97);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .reveal-left {
             opacity: 0;
-            transform: translateX(-40px);
-            transition: opacity 0.9s ease, transform 0.9s var(--transition);
+            transform: translateX(-48px) scale(0.97);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .reveal-left.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) scale(1);
         }
 
         .reveal-right {
             opacity: 0;
-            transform: translateX(40px);
-            transition: opacity 0.9s ease, transform 0.9s var(--transition);
+            transform: translateX(48px) scale(0.97);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .reveal-right.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) scale(1);
+        }
+
+        /* fade-el: للعناصر اللي مش عندها reveal class */
+        .fade-el {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-el.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .stagger-1 {
-            transition-delay: 0.1s;
+            transition-delay: 0.08s;
         }
 
         .stagger-2 {
-            transition-delay: 0.2s;
+            transition-delay: 0.18s;
         }
 
         .stagger-3 {
-            transition-delay: 0.3s;
+            transition-delay: 0.28s;
         }
 
         .stagger-4 {
-            transition-delay: 0.4s;
+            transition-delay: 0.38s;
         }
 
         .stagger-5 {
-            transition-delay: 0.5s;
+            transition-delay: 0.48s;
         }
 
-        /* ============ CATEGORIES ============ */
+        /* CATEGORIES */
         .categories {
             padding: 140px 60px;
             background: var(--bg2);
@@ -586,7 +600,6 @@
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(201, 168, 76, 0.15);
         }
 
-        /* Real image inside category card */
         .cat-card img.cat-bg-img {
             position: absolute;
             inset: 0;
@@ -602,7 +615,6 @@
             filter: brightness(0.75) saturate(1);
         }
 
-        /* Fallback placeholder when no real image */
         .cat-img-placeholder {
             width: 100%;
             height: 100%;
@@ -722,7 +734,7 @@
             }
         }
 
-        /* ============ PRODUCTS ============ */
+        /* PRODUCTS */
         .products {
             padding: 140px 60px;
             background: var(--bg);
@@ -749,7 +761,6 @@
             transition: border-color 0.3s;
         }
 
-        /* Category filter tabs */
         .cat-tabs {
             display: flex;
             gap: 8px;
@@ -824,7 +835,6 @@
             filter: brightness(1) saturate(1);
         }
 
-        /* Placeholder fallback */
         .p-placeholder {
             width: 100%;
             height: 100%;
@@ -920,7 +930,6 @@
             border-color: var(--gold);
         }
 
-        /* No products message */
         .no-products {
             grid-column: 1/-1;
             text-align: center;
@@ -1961,7 +1970,161 @@
             color: var(--bg);
         }
 
-        /* ADMIN */
+        /* ========================================
+           LOGIN MODAL - NEW
+        ======================================== */
+        .login-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 990;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: var(--glow);
+        }
+
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 6000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .login-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 400px;
+            padding: 52px 48px;
+            text-align: center;
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.4s var(--transition);
+            position: relative;
+        }
+
+        .login-overlay.open .login-box {
+            transform: translateY(0) scale(1);
+        }
+
+        .login-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .login-field {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            color: var(--text);
+            padding: 14px 18px;
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.82rem;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .login-field:focus {
+            border-color: rgba(201, 168, 76, 0.5);
+            box-shadow: var(--glow);
+        }
+
+        .login-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold);
+            border: none;
+            color: var(--bg);
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .login-submit:hover {
+            background: var(--gold-light);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.25);
+        }
+
+        .login-error {
+            font-size: 0.72rem;
+            color: rgba(255, 100, 100, 0.75);
+            margin-top: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .login-error.show {
+            opacity: 1;
+        }
+
+        .login-close-x {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: none;
+            transition: color 0.3s;
+        }
+
+        .login-close-x:hover {
+            color: var(--gold);
+        }
+
+        /* ========================================
+           ADMIN DASHBOARD - UPDATED
+        ======================================== */
         .admin-overlay {
             position: fixed;
             inset: 0;
@@ -1992,6 +2155,12 @@
             letter-spacing: 0.1em;
         }
 
+        .admin-nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
         .admin-close {
             background: none;
             border: 1px solid var(--border);
@@ -2007,6 +2176,130 @@
         .admin-close:hover {
             border-color: var(--gold);
             color: var(--gold);
+        }
+
+        /* DELETE BUTTON */
+        .delete-orders-btn {
+            background: none;
+            border: 1px solid rgba(255, 80, 80, 0.35);
+            color: rgba(255, 100, 100, 0.6);
+            padding: 8px 20px;
+            cursor: none;
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .delete-orders-btn:hover {
+            border-color: rgba(255, 80, 80, 0.8);
+            color: rgba(255, 100, 100, 1);
+            background: rgba(255, 50, 50, 0.07);
+            box-shadow: 0 0 20px rgba(255, 50, 50, 0.1);
+        }
+
+        /* DELETE CONFIRM MODAL */
+        .delete-confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 7000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .delete-confirm-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .delete-confirm-box {
+            background: var(--bg2);
+            border: 1px solid rgba(255, 80, 80, 0.25);
+            padding: 48px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform 0.3s var(--transition);
+        }
+
+        .delete-confirm-overlay.open .delete-confirm-box {
+            transform: scale(1);
+        }
+
+        .delete-confirm-icon {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            display: block;
+            opacity: 0.7;
+        }
+
+        .delete-confirm-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .delete-confirm-msg {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 36px;
+        }
+
+        .delete-confirm-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .delete-cancel {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid var(--border);
+            background: none;
+            color: var(--text-muted);
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .delete-cancel:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .delete-confirm-yes {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            background: rgba(255, 50, 50, 0.08);
+            color: rgba(255, 100, 100, 0.85);
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .delete-confirm-yes:hover {
+            background: rgba(255, 50, 50, 0.18);
+            border-color: rgba(255, 80, 80, 0.9);
+            color: #ff6464;
         }
 
         .admin-body {
@@ -2085,30 +2378,6 @@
             padding: 60px;
             color: var(--text-muted);
             font-size: 0.85rem;
-        }
-
-        .admin-trigger {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 44px;
-            height: 44px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            cursor: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            z-index: 990;
-            transition: all 0.3s;
-        }
-
-        .admin-trigger:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            box-shadow: var(--glow);
         }
 
         /* RESPONSIVE */
@@ -2209,6 +2478,14 @@
             .cat-tabs {
                 padding: 0 20px;
             }
+
+            .admin-nav-actions {
+                gap: 8px;
+            }
+
+            .delete-orders-btn span {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -2288,72 +2565,56 @@
             <div class="section-divider" style="margin:24px auto;"></div>
         </div>
         <div class="categories-grid">
-
             <div class="cat-card reveal" onclick="filterCategory('padded')">
                 <img class="cat-bg-img" src="padded.png" alt="Padded Prayer Rugs"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="cat-img-placeholder"
                     style="display:none;background:linear-gradient(135deg,#1a1810,#2a2515);color:#c9a84c22;font-size:10rem;">
                     🕌</div>
-                <div class="cat-overlay">
-                    <span class="cat-tag">Collection 01</span>
-                    <div class="cat-name">Padded Prayer Rugs</div>
-                    <a href="#products" class="cat-link">Discover</a>
+                <div class="cat-overlay"><span class="cat-tag">Collection 01</span>
+                    <div class="cat-name">Padded Prayer Rugs</div><a href="#products" class="cat-link">Discover</a>
                 </div>
             </div>
-
             <div class="cat-card reveal stagger-1" onclick="filterCategory('mihrab')">
                 <img class="cat-bg-img" src="mihrab.png" alt="Mihrab Rugs"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="cat-img-placeholder"
                     style="display:none;background:linear-gradient(135deg,#181a10,#252a15);color:#c9a84c11;font-size:5rem;">
                     🏛</div>
-                <div class="cat-overlay">
-                    <span class="cat-tag">Collection 02</span>
-                    <div class="cat-name">Mihrab Rugs</div>
-                    <a href="#products" class="cat-link">Discover</a>
+                <div class="cat-overlay"><span class="cat-tag">Collection 02</span>
+                    <div class="cat-name">Mihrab Rugs</div><a href="#products" class="cat-link">Discover</a>
                 </div>
             </div>
-
             <div class="cat-card reveal stagger-2" onclick="filterCategory('masnad')">
                 <img class="cat-bg-img" src="masnad.png" alt="Masnad Rugs"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="cat-img-placeholder"
                     style="display:none;background:linear-gradient(135deg,#1a1018,#2a1520);color:#c9a84c11;font-size:5rem;">
                     🪑</div>
-                <div class="cat-overlay">
-                    <span class="cat-tag">Collection 03</span>
-                    <div class="cat-name">Masnad Rugs</div>
-                    <a href="#products" class="cat-link">Discover</a>
+                <div class="cat-overlay"><span class="cat-tag">Collection 03</span>
+                    <div class="cat-name">Masnad Rugs</div><a href="#products" class="cat-link">Discover</a>
                 </div>
             </div>
-
             <div class="cat-card reveal stagger-3" onclick="filterCategory('isdal')">
                 <img class="cat-bg-img" src="isdal.png" alt="Isdal Clothing"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="cat-img-placeholder"
                     style="display:none;background:linear-gradient(135deg,#101a18,#152a25);color:#c9a84c11;font-size:5rem;">
                     👘</div>
-                <div class="cat-overlay">
-                    <span class="cat-tag">Collection 04</span>
-                    <div class="cat-name">Isdal Clothing</div>
-                    <a href="#products" class="cat-link">Discover</a>
+                <div class="cat-overlay"><span class="cat-tag">Collection 04</span>
+                    <div class="cat-name">Isdal Clothing</div><a href="#products" class="cat-link">Discover</a>
                 </div>
             </div>
-
             <div class="cat-card reveal stagger-4" onclick="filterCategory('incense')">
                 <img class="cat-bg-img" src="ans1.jpeg" alt="Incense & Burners"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="cat-img-placeholder"
                     style="display:none;background:linear-gradient(135deg,#1a1510,#2a2010);color:#c9a84c11;font-size:5rem;">
                     🪔</div>
-                <div class="cat-overlay">
-                    <span class="cat-tag">Collection 05</span>
-                    <div class="cat-name">Incense &amp; Burners</div>
-                    <a href="#products" class="cat-link">Discover</a>
+                <div class="cat-overlay"><span class="cat-tag">Collection 05</span>
+                    <div class="cat-name">Incense &amp; Burners</div><a href="#products" class="cat-link">Discover</a>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -2364,12 +2625,8 @@
                 <span class="section-eyebrow">Featured</span>
                 <h2 class="section-title">Selected <em>Pieces</em></h2>
             </div>
-            <div class="right reveal stagger-2">
-                <a href="#">View All Products →</a>
-            </div>
+            <div class="right reveal stagger-2"><a href="#">View All Products →</a></div>
         </div>
-
-        <!-- Category Filter Tabs -->
         <div class="cat-tabs reveal" id="catTabs">
             <button class="cat-tab active" onclick="filterCategory('all', this)">All</button>
             <button class="cat-tab" onclick="filterCategory('padded', this)">Padded Rugs</button>
@@ -2378,27 +2635,19 @@
             <button class="cat-tab" onclick="filterCategory('isdal', this)">Isdal</button>
             <button class="cat-tab" onclick="filterCategory('incense', this)">Incense</button>
         </div>
-
-        <div class="products-grid" id="productsGrid">
-            <!-- Products rendered by JS -->
-        </div>
+        <div class="products-grid" id="productsGrid"></div>
     </section>
 
     <!-- BRAND STORY -->
     <section class="story" id="story">
         <div class="story-inner">
             <span class="story-icon reveal">✦</span>
-            <div class="story-quote reveal stagger-1">
-                "We believe every prayer is a <em>sacred journey</em> — and every journey deserves comfort, beauty, and
-                devotion."
-            </div>
+            <div class="story-quote reveal stagger-1">"We believe every prayer is a <em>sacred journey</em> — and every
+                journey deserves comfort, beauty, and devotion."</div>
             <div class="section-divider reveal stagger-2" style="margin:0 auto 32px;"></div>
-            <p class="story-body reveal stagger-3">
-                Sedra Stores was born from a deep reverence for the prayer experience. We craft each piece with
-                intention —
-                selecting the finest materials, the softest paddings, and the most refined designs — so that when you
-                kneel, you feel only peace.
-            </p>
+            <p class="story-body reveal stagger-3">Sedra Stores was born from a deep reverence for the prayer
+                experience. We craft each piece with intention — selecting the finest materials, the softest paddings,
+                and the most refined designs — so that when you kneel, you feel only peace.</p>
             <div class="story-line reveal stagger-4">Est. 2020 · Premium Craftsmanship</div>
         </div>
     </section>
@@ -2441,7 +2690,7 @@
             <h2 class="section-title">Best <em>Sellers</em></h2>
         </div>
         <div class="slider-track-wrap">
-            <div class="slider-track" id="sliderTrack"><!-- Rendered by JS --></div>
+            <div class="slider-track" id="sliderTrack"></div>
         </div>
         <div class="slider-controls">
             <button class="slider-btn" onclick="slideLeft()">←</button>
@@ -2547,7 +2796,6 @@
                     <li><a href="#">Our Story</a></li>
                     <li><a href="#">Craftsmanship</a></li>
                     <li><a href="#">Sustainability</a></li>
-                    <li><a href="#" onclick="openAdmin()">Admin</a></li>
                 </ul>
             </div>
         </div>
@@ -2670,10 +2918,43 @@
         </div>
     </div>
 
+    <!-- ===== LOGIN MODAL ===== -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <button class="login-close-x" onclick="closeLogin()">✕</button>
+            <div class="login-logo">✦ SEDRA</div>
+            <div class="login-subtitle">Admin Access</div>
+            <input type="text" class="login-field" id="loginUser" placeholder="Username" autocomplete="off">
+            <input type="password" class="login-field" id="loginPass" placeholder="Password"
+                onkeydown="if(event.key==='Enter') doLogin()">
+            <button class="login-submit" onclick="doLogin()">Enter Dashboard</button>
+            <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
+        </div>
+    </div>
+
+    <!-- ===== DELETE CONFIRM MODAL ===== -->
+    <div class="delete-confirm-overlay" id="deleteConfirmOverlay">
+        <div class="delete-confirm-box">
+            <span class="delete-confirm-icon">🗑</span>
+            <div class="delete-confirm-title">Clear All Orders?</div>
+            <p class="delete-confirm-msg">This action will permanently delete all orders and reset the dashboard to
+                zero. This cannot be undone.</p>
+            <div class="delete-confirm-actions">
+                <button class="delete-cancel" onclick="closeDeleteConfirm()">Cancel</button>
+                <button class="delete-confirm-yes" onclick="confirmDeleteOrders()">Yes, Delete All</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ADMIN DASHBOARD -->
     <div class="admin-overlay" id="adminOverlay">
         <div class="admin-nav">
-            <h1>✦ Sedra Admin Dashboard</h1><button class="admin-close" onclick="closeAdmin()">✕ Close</button>
+            <h1>✦ Sedra Admin Dashboard</h1>
+            <div class="admin-nav-actions">
+                <button class="delete-orders-btn" onclick="openDeleteConfirm()">🗑 <span>Delete All
+                        Orders</span></button>
+                <button class="admin-close" onclick="closeAdmin()">✕ Close</button>
+            </div>
         </div>
         <div class="admin-body">
             <div class="admin-stats">
@@ -2709,17 +2990,18 @@
         </div>
     </div>
 
-    <button class="admin-trigger" onclick="openAdmin()" title="Admin">⚙</button>
+    <!-- ===== LOGIN BUTTON (replaces old admin trigger) ===== -->
+    <button class="login-btn" onclick="openLogin()">⚿ <span>Admin</span></button>
 
     <script>
         // ===== CONFIG =====
         const TELEGRAM_BOT_TOKEN = '8612596920:AAFH0OwcjLrpfnSBUfwtOf0JxzsS5HoR39g';
         const TELEGRAM_CHAT_ID = '7583418663';
+        const ADMIN_USER = 'admin';
+        const ADMIN_PASS = 'harby';
 
         // ===== PRODUCTS DATA =====
-        // Each product has imgSrc for real image, icon as fallback
         const products = [
-            // Padded
             { id: 1, name: 'Classic Comfort Rug', cat: 'padded', desc: 'Ultra-soft foam padding with premium velvet finish. 110×70cm.', price: 400, imgSrc: 'padded.png', icon: '🕌', badge: 'Best Seller' },
             { id: 2, name: 'Royal Padded Rug', cat: 'padded', desc: 'Memory foam base with pearl-white microfiber surface. 115×75cm.', price: 400, imgSrc: 'p2.jpeg', icon: '🕌', badge: null },
             { id: 3, name: 'Velvet Prayer Mat', cat: 'padded', desc: 'Plush velvet top layer over high-density foam. Available in 3 colors.', price: 400, imgSrc: 'p3.jpeg', icon: '🕌', badge: null },
@@ -2728,7 +3010,6 @@
             { id: 6, name: 'Pearl Padded Rug', cat: 'padded', desc: 'Pearl finish with extra thick foam layer. 115×75cm.', price: 400, imgSrc: 'p6.jpeg', icon: '🕌', badge: null },
             { id: 7, name: 'Charcoal Prayer Mat', cat: 'padded', desc: 'Modern charcoal design with soft padding. 110×70cm.', price: 400, imgSrc: 'p7.jpeg', icon: '🕌', badge: null },
             { id: 8, name: 'Luxury Gold Rug', cat: 'padded', desc: 'Gold-accent borders over cream base. Ultra-padded. 120×80cm.', price: 400, imgSrc: 'p8.jpeg', icon: '🕌', badge: 'Popular' },
-            // Mihrab
             { id: 9, name: 'Mihrab Royal Rug', cat: 'mihrab', desc: 'Classic mihrab arch design with gold-embroidered border. 120×80cm.', price: 400, imgSrc: 'mp1.jpeg', icon: '🏛', badge: 'Best Seller' },
             { id: 10, name: 'Grand Mihrab Mat', cat: 'mihrab', desc: 'Intricate mihrab pattern with velvet pile. 120×80cm.', price: 400, imgSrc: 'mp2.jpeg', icon: '🏛', badge: null },
             { id: 11, name: 'Arch Prayer Rug', cat: 'mihrab', desc: 'Traditional arch design in navy and gold. 115×75cm.', price: 400, imgSrc: 'mp3.jpeg', icon: '🏛', badge: 'New' },
@@ -2737,20 +3018,17 @@
             { id: 14, name: 'Burgundy Arch Mat', cat: 'mihrab', desc: 'Deep burgundy mihrab with gold trim. 120×80cm.', price: 400, imgSrc: 'mp6.jpeg', icon: '🏛', badge: null },
             { id: 15, name: 'Ivory Mihrab', cat: 'mihrab', desc: 'Ivory base mihrab rug with soft sheen. 110×70cm.', price: 400, imgSrc: 'mp7.jpeg', icon: '🏛', badge: null },
             { id: 16, name: 'Heritage Mihrab', cat: 'mihrab', desc: 'Heritage-inspired mihrab with tasseled edge. 120×80cm.', price: 700, imgSrc: 'mp8.jpeg', icon: '🏛', badge: 'Loved' },
-            // Masnad
             { id: 17, name: 'Masnad Back Support', cat: 'masnad', desc: 'Ergonomic back support for long prayer sessions. Adjustable angle.', price: 380, imgSrc: 'm1.jpeg', icon: '🪑', badge: 'Best Seller' },
             { id: 18, name: 'Masnad Premium', cat: 'masnad', desc: 'Premium memory foam masnad with velvet cover. Portable design.', price: 420, imgSrc: 'm2.jpeg', icon: '🪑', badge: null },
             { id: 19, name: 'Masnad Classic', cat: 'masnad', desc: 'Traditional masnad with firm support and soft exterior.', price: 340, imgSrc: 'm3.jpeg', icon: '🪑', badge: null },
             { id: 20, name: 'Masnad Deluxe', cat: 'masnad', desc: 'Deluxe masnad with padded arm rests. Perfect for elderly.', price: 460, imgSrc: 'm4.jpeg', icon: '🪑', badge: 'New' },
             { id: 21, name: 'Masnad Travel', cat: 'masnad', desc: 'Lightweight foldable masnad for travel use.', price: 290, imgSrc: 'm5.jpeg', icon: '🪑', badge: null },
-            // Isdal
             { id: 22, name: 'Isdal Prayer Robe', cat: 'isdal', desc: 'Lightweight breathable fabric. Available in white and navy.', price: 280, imgSrc: 'isd1.jpeg', icon: '👘', badge: 'New' },
             { id: 23, name: 'Marble Isdal Set', cat: 'isdal', desc: 'Complete prayer outfit set — includes matching headcover.', price: 390, imgSrc: 'isd2.jpeg', icon: '👘', badge: null },
             { id: 24, name: 'Premium Isdal', cat: 'isdal', desc: 'Premium cotton blend isdal with embroidered hem.', price: 320, imgSrc: 'isd3.jpeg', icon: '👘', badge: null },
             { id: 25, name: 'Classic White Isdal', cat: 'isdal', desc: 'Pure white classic isdal with fine stitching.', price: 260, imgSrc: 'isd4.jpeg', icon: '👘', badge: 'Popular' },
             { id: 26, name: 'Luxury Isdal Robe', cat: 'isdal', desc: 'Luxury silk-blend isdal with gold border accents.', price: 450, imgSrc: 'isd5.jpeg', icon: '👘', badge: null },
             { id: 27, name: 'Linen Isdal Set', cat: 'isdal', desc: 'Breathable linen isdal set for warm climates.', price: 300, imgSrc: 'isd6.jpeg', icon: '👘', badge: null },
-            // Incense
             { id: 28, name: 'Oud Incense Burner', cat: 'incense', desc: 'Hand-carved brass burner with intricate geometric patterns.', price: 350, imgSrc: 'ans2.jpeg', icon: '🪔', badge: 'Popular' },
             { id: 29, name: 'Rose Oud Incense', cat: 'incense', desc: 'Premium blend of rose and aged oud. 50 sticks per box.', price: 180, imgSrc: 'ans3.jpeg', icon: '🌹', badge: 'Loved' },
             { id: 30, name: 'Sandalwood Set', cat: 'incense', desc: 'Pure sandalwood incense with ceramic holder.', price: 220, imgSrc: 'ans4.jpeg', icon: '🪔', badge: null },
@@ -2769,59 +3047,66 @@
         const cursor = document.getElementById('cursor');
         const cursorRing = document.getElementById('cursorRing');
         let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
-        document.addEventListener('mousemove', e => {
-            mouseX = e.clientX; mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-        });
-
-        (function animateRing() {
-            ringX += (mouseX - ringX) * 0.12;
-            ringY += (mouseY - ringY) * 0.12;
-            cursorRing.style.left = ringX + 'px';
-            cursorRing.style.top = ringY + 'px';
-            requestAnimationFrame(animateRing);
-        })();
+        document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; });
+        (function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(animateRing); })();
 
         function bindCursorHover() {
             document.querySelectorAll('a,button,.cat-card,.product-card,.slider-card,.why-item,.cat-tab').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
-                    cursorRing.style.transform = 'translate(-50%,-50%) scale(1.5)';
-                    cursorRing.style.borderColor = 'rgba(201,168,76,0.8)';
-                });
-                el.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-                    cursorRing.style.transform = 'translate(-50%,-50%) scale(1)';
-                    cursorRing.style.borderColor = 'rgba(201,168,76,0.5)';
-                });
+                el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; cursorRing.style.transform = 'translate(-50%,-50%) scale(1.5)'; cursorRing.style.borderColor = 'rgba(201,168,76,0.8)'; });
+                el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursorRing.style.transform = 'translate(-50%,-50%) scale(1)'; cursorRing.style.borderColor = 'rgba(201,168,76,0.5)'; });
             });
         }
 
         // ===== LOADER =====
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 2200);
-        });
+        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 2200); });
 
         // ===== NAVBAR =====
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            if (window.scrollY > 60) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
+            if (window.scrollY > 60) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
         });
 
         // ===== REVEAL ON SCROLL =====
+        // جمع كل عناصر الـ reveal
         const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+
+        // اضافة fade-el تلقائياً على عناصر الأقسام اللي مش عندها class reveal
+        const autoFadeSelectors = [
+            '.marquee-section',
+            '.cat-card',
+            '.product-card',
+            '.why-item',
+            '.test-card',
+            '.slider-card',
+            '.footer-col',
+            '.footer-brand',
+            '.stat-card'
+        ];
+        autoFadeSelectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach((el, i) => {
+                if (!el.classList.contains('reveal') && !el.classList.contains('reveal-left') && !el.classList.contains('reveal-right')) {
+                    el.classList.add('fade-el');
+                    // stagger تلقائي بناءً على ترتيب العنصر
+                    el.style.transitionDelay = (i % 6) * 0.09 + 's';
+                }
+            });
+        });
+
+        // Observer واحد بيشغّل الـ fade مرة واحدة بس (مايشيلهاش لما يطلع من الشاشة)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => {
-                if (e.isIntersecting) e.target.classList.add('visible');
-                else e.target.classList.remove('visible');
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target); // مرة واحدة بس
+                }
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        // observe الـ reveal العادية
         revealEls.forEach(el => observer.observe(el));
+
+        // observe الـ fade-el الجديدة
+        document.querySelectorAll('.fade-el').forEach(el => observer.observe(el));
 
         // ===== 3D TILT =====
         function applyTilt(el, e, maxDeg = 10) {
@@ -2831,13 +3116,9 @@
             el.style.transform = `perspective(900px) rotateX(${-y * maxDeg}deg) rotateY(${x * maxDeg}deg) scale(1.04)`;
             el.classList.add('tilting');
         }
-        function resetTilt(el) {
-            el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
-            el.classList.remove('tilting');
-        }
+        function resetTilt(el) { el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)'; el.classList.remove('tilting'); }
         function bindTiltCards() {
-            const selectors = ['.cat-card', '.product-card', '.slider-card', '.why-item', '.test-card'];
-            selectors.forEach(sel => {
+            ['.cat-card', '.product-card', '.slider-card', '.why-item', '.test-card'].forEach(sel => {
                 document.querySelectorAll(sel).forEach(card => {
                     card.removeEventListener('mousemove', card._tiltMove);
                     card.removeEventListener('mouseleave', card._tiltLeave);
@@ -2851,67 +3132,46 @@
 
         // ===== RENDER PRODUCTS =====
         function makeImgTag(imgSrc, name, icon, classes = '') {
-            return `
-            <img src="${imgSrc}" alt="${name}" class="${classes}"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-                 style="width:100%;height:100%;object-fit:cover;display:block;">
-            <div class="p-placeholder" style="display:none">${icon}</div>
-        `;
+            return `<img src="${imgSrc}" alt="${name}" class="${classes}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:100%;height:100%;object-fit:cover;display:block;"><div class="p-placeholder" style="display:none">${icon}</div>`;
         }
 
         function renderProducts(filter = 'all') {
             activeCategory = filter;
             const grid = document.getElementById('productsGrid');
             const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="no-products">No products found in this category.</div>';
-                return;
-            }
-
+            if (filtered.length === 0) { grid.innerHTML = '<div class="no-products">No products found in this category.</div>'; return; }
             grid.innerHTML = filtered.map((p, i) => `
-            <div class="product-card reveal stagger-${(i % 4) + 1}">
-                ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-                <div class="product-img">
-                    ${makeImgTag(p.imgSrc, p.name, p.icon)}
-                </div>
-                <div class="product-info">
-                    <div class="product-cat">${p.cat}</div>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-desc">${p.desc}</div>
-                    <div class="product-footer">
-                        <div class="product-price">${p.price} <span>EGP</span></div>
-                        <button class="add-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+                <div class="product-card reveal stagger-${(i % 4) + 1}">
+                    ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+                    <div class="product-img">${makeImgTag(p.imgSrc, p.name, p.icon)}</div>
+                    <div class="product-info">
+                        <div class="product-cat">${p.cat}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="product-footer">
+                            <div class="product-price">${p.price} <span>EGP</span></div>
+                            <button class="add-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        `).join('');
-
-            document.querySelectorAll('.product-card').forEach(el => observer.observe(el));
-            bindTiltCards();
-            bindCursorHover();
+                </div>`).join('');
+            // observe كارد المنتجات الجديدة مع stagger
+            document.querySelectorAll('.product-card').forEach((el, i) => {
+                el.style.transitionDelay = (i % 4) * 0.1 + 's';
+                observer.observe(el);
+            });
+            bindTiltCards(); bindCursorHover();
         }
 
         function filterCategory(cat, tabEl) {
-            // Update tabs
-            if (tabEl) {
-                document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-                tabEl.classList.add('active');
-            } else {
-                // Called from category card — find matching tab
+            if (tabEl) { document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active')); tabEl.classList.add('active'); }
+            else {
                 document.querySelectorAll('.cat-tab').forEach(t => {
-                    if (t.textContent.toLowerCase().includes(cat) || (cat === 'all' && t.textContent === 'All')) {
-                        t.classList.add('active');
-                    } else {
-                        t.classList.remove('active');
-                    }
+                    if (t.textContent.toLowerCase().includes(cat) || (cat === 'all' && t.textContent === 'All')) t.classList.add('active');
+                    else t.classList.remove('active');
                 });
             }
-            // Smooth scroll then filter
             document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                renderProducts(cat);
-            }, 400);
+            setTimeout(() => renderProducts(cat), 400);
         }
 
         // ===== BEST SELLERS SLIDER =====
@@ -2919,23 +3179,30 @@
             const track = document.getElementById('sliderTrack');
             const sellers = products.filter(p => p.badge);
             track.innerHTML = sellers.map(p => `
-            <div class="slider-card">
-                <div class="product-img" style="aspect-ratio:1/1">
-                    ${makeImgTag(p.imgSrc, p.name, p.icon)}
-                </div>
-                <div class="product-info">
-                    <div class="product-cat">${p.cat}</div>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-footer">
-                        <div class="product-price">${p.price} <span>EGP</span></div>
-                        <button class="add-cart" onclick="addToCart(${p.id})">Add</button>
+                <div class="slider-card">
+                    <div class="product-img" style="aspect-ratio:1/1">${makeImgTag(p.imgSrc, p.name, p.icon)}</div>
+                    <div class="product-info">
+                        <div class="product-cat">${p.cat}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-footer">
+                            <div class="product-price">${p.price} <span>EGP</span></div>
+                            <button class="add-cart" onclick="addToCart(${p.id})">Add</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        `).join('');
+                </div>`).join('');
             bindTiltCards();
+
+
         }
 
+        // observe الـ slider cards
+        document.querySelectorAll('.slider-card').forEach((el, i) => {
+            if (!el.classList.contains('fade-el')) {
+                el.classList.add('fade-el');
+                el.style.transitionDelay = i * 0.08 + 's';
+                observer.observe(el);
+            }
+        });
         function slideLeft() { document.getElementById('sliderTrack').scrollBy({ left: -360, behavior: 'smooth' }); }
         function slideRight() { document.getElementById('sliderTrack').scrollBy({ left: 360, behavior: 'smooth' }); }
 
@@ -2943,84 +3210,56 @@
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existing = cart.find(i => i.id === id);
-            if (existing) existing.qty++;
-            else cart.push({ ...product, qty: 1 });
-            updateCartUI();
-            toggleCart(true);
+            if (existing) existing.qty++; else cart.push({ ...product, qty: 1 });
+            updateCartUI(); toggleCart(true);
         }
-
         function updateCartUI() {
             const count = cart.reduce((s, i) => s + i.qty, 0);
             const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
             const countEl = document.getElementById('cartCount');
-            countEl.textContent = count;
-            countEl.style.display = count > 0 ? 'flex' : 'none';
+            countEl.textContent = count; countEl.style.display = count > 0 ? 'flex' : 'none';
             document.getElementById('cartTotal').textContent = total + ' EGP';
             document.getElementById('cartFooter').style.display = cart.length ? 'block' : 'none';
-
             const itemsEl = document.getElementById('cartItems');
             if (cart.length === 0) {
                 itemsEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">✦</div><p>Your cart is empty.<br>Discover our collections.</p></div>`;
             } else {
                 itemsEl.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-img">
-                        <img src="${item.imgSrc}" alt="${item.name}"
-                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-                             style="width:100%;height:100%;object-fit:cover;">
-                        <span class="ci-icon" style="display:none">${item.icon}</span>
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">${item.price} EGP</div>
-                        <div class="qty-control">
-                            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-                            <span class="qty-num">${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="${item.imgSrc}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="width:100%;height:100%;object-fit:cover;">
+                            <span class="ci-icon" style="display:none">${item.icon}</span>
                         </div>
-                        <button class="cart-item-remove" onclick="removeItem(${item.id})">✕ Remove</button>
-                    </div>
-                </div>
-            `).join('');
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price} EGP</div>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+                                <span class="qty-num">${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+                            </div>
+                            <button class="cart-item-remove" onclick="removeItem(${item.id})">✕ Remove</button>
+                        </div>
+                    </div>`).join('');
             }
         }
-
-        function changeQty(id, delta) {
-            const item = cart.find(i => i.id === id);
-            if (!item) return;
-            item.qty += delta;
-            if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-            updateCartUI();
-        }
-
-        function removeItem(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCartUI();
-        }
-
+        function changeQty(id, delta) { const item = cart.find(i => i.id === id); if (!item) return; item.qty += delta; if (item.qty <= 0) cart = cart.filter(i => i.id !== id); updateCartUI(); }
+        function removeItem(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
         function toggleCart(forceOpen) {
-            const sidebar = document.getElementById('cartSidebar');
-            const overlay = document.getElementById('cartOverlay');
+            const sidebar = document.getElementById('cartSidebar'); const overlay = document.getElementById('cartOverlay');
             const isOpen = sidebar.classList.contains('open');
-            if (forceOpen === true || !isOpen) {
-                sidebar.classList.add('open');
-                overlay.classList.add('show');
-            } else {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('show');
-            }
+            if (forceOpen === true || !isOpen) { sidebar.classList.add('open'); overlay.classList.add('show'); }
+            else { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
         }
 
         // ===== LOCATION =====
         function getLocation() {
             if (!navigator.geolocation) return alert('Geolocation not supported.');
             navigator.geolocation.getCurrentPosition(pos => {
-                const lat = pos.coords.latitude.toFixed(6);
-                const lng = pos.coords.longitude.toFixed(6);
+                const lat = pos.coords.latitude.toFixed(6); const lng = pos.coords.longitude.toFixed(6);
                 locationData = { lat, lng };
                 const display = document.getElementById('locationDisplay');
-                display.textContent = `📍 Location pinned: ${lat}, ${lng}`;
-                display.classList.add('show');
+                display.textContent = `📍 Location pinned: ${lat}, ${lng}`; display.classList.add('show');
             }, () => alert('Unable to get location. Please enter address manually.'));
         }
 
@@ -3030,20 +3269,15 @@
             toggleCart(false);
             setTimeout(() => {
                 const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-                document.getElementById('summaryItems').innerHTML = cart.map(i =>
-                    `<div class="summary-item"><span>${i.name} × ${i.qty}</span><span>${i.price * i.qty} EGP</span></div>`
-                ).join('');
+                document.getElementById('summaryItems').innerHTML = cart.map(i => `<div class="summary-item"><span>${i.name} × ${i.qty}</span><span>${i.price * i.qty} EGP</span></div>`).join('');
                 document.getElementById('summaryTotal').textContent = total + ' EGP';
                 document.getElementById('checkoutModal').classList.add('open');
                 document.getElementById('deliveryDate').min = new Date().toISOString().split('T')[0];
             }, 400);
         }
+        function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
 
-        function closeCheckout() {
-            document.getElementById('checkoutModal').classList.remove('open');
-        }
-
-        // ===== GOVERNORATE & DISTRICTS =====
+        // ===== DISTRICTS =====
         const governorateData = {
             'Cairo': ['Maadi', 'Helwan', 'Nasr City', 'New Cairo', 'El-Mokattam', 'Downtown', 'Giza', '6th of October', 'Sheikh Zayed', 'Al-Haram', 'Imbaba', 'Bulaq', 'Shubra', 'El-Marg'],
             'Giza': ['Giza', 'Dokki', 'Mohandessin', 'Agouza', 'Faisal', 'Haram', 'Kerdasa', 'Al-Mansoura', 'Talbia', 'Kafr Talat'],
@@ -3051,7 +3285,7 @@
             'Mansoura': ['Mansoura', 'Talkha', 'Sherbin', 'Mahalat Marhoul', 'El-Maghra', 'Aga', 'Belqas', 'Tartar'],
             'Tanta': ['Tanta', 'Kafr El Sheikh', 'El-Bagour', 'Samanoud', 'El-Riyad', 'Qeutha'],
             'Zagazig': ['Zagazig', 'Abu Kebir', 'Sharqia', 'El-Husseiniya', 'Deirawas', 'Kafr Saqr', 'Faqous'],
-            'Suez': ['Suez', 'Ain Sokhna', 'Ras Sudr', 'Ataka', 'Suez'],
+            'Suez': ['Suez', 'Ain Sokhna', 'Ras Sudr', 'Ataka'],
             'Luxor': ['Luxor', 'Qurna', 'Esna', 'El-Bayadeya', 'Armant', 'Tarkhan'],
             'Aswan': ['Aswan', 'Abu Simbel', 'Edfu', 'Kom Ombo', 'Daraw', 'Kalabsha'],
             'Ismailia': ['Ismailia', 'Port Said', 'Suez', 'El-Qantara', 'El-Tal El-Kabeer'],
@@ -3062,30 +3296,19 @@
             'Sohag': ['Sohag', 'Sakulta', 'Girga', 'El-Maragha', 'El-Mansha', 'Tahta', 'El-Balab'],
             'Qena': ['Qena', 'Qous', 'Naqada', 'Dishna', 'Farshout', 'El-Waqf', 'Kous'],
             'Damietta': ['Damietta', 'Kafr Saad', 'El-Zarka', 'Ras El Bar', 'Faraskour', 'Kafr El-Sheikh'],
-            'Kafr El Sheikh': ['Kafr El Sheikh', 'Desouk', 'Baltim', 'Sidi Salem', 'Metoubes', 'Kafr El Sheikh'],
+            'Kafr El Sheikh': ['Kafr El Sheikh', 'Desouk', 'Baltim', 'Sidi Salem', 'Metoubes'],
             'Sharqia': ['Sharqia', 'Zagazig', 'Abu Kebir', 'El-Husseiniya', 'Deirawas', 'Kafr Saqr'],
             'Monufia': ['Monufia', 'Shebin El-Kom', 'Tala', 'Menouf', 'Sers El-Layan', 'Ashmoun', 'El-Bagoor'],
             'Qalyubia': ['Qalyubia', 'Banha', 'Shubra El-Kheima', 'Qalyub', 'Kafr Shukr', 'El-Khosos', 'Toub']
         };
-
         function updateDistricts() {
-            const governorate = document.getElementById('custGovernorate').value;
-            const districtSelect = document.getElementById('custDistrict');
-
-            districtSelect.innerHTML = '<option value="">Select District/City</option>';
-
-            if (governorate && governorateData[governorate]) {
-                districtSelect.disabled = false;
-                governorateData[governorate].forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    districtSelect.appendChild(option);
-                });
-            } else {
-                districtSelect.disabled = true;
-                districtSelect.innerHTML = '<option value="">Select Governorate first</option>';
-            }
+            const gov = document.getElementById('custGovernorate').value;
+            const distSelect = document.getElementById('custDistrict');
+            distSelect.innerHTML = '<option value="">Select District/City</option>';
+            if (gov && governorateData[gov]) {
+                distSelect.disabled = false;
+                governorateData[gov].forEach(city => { const o = document.createElement('option'); o.value = city; o.textContent = city; distSelect.appendChild(o); });
+            } else { distSelect.disabled = true; distSelect.innerHTML = '<option value="">Select Governorate first</option>'; }
         }
 
         // ===== SUBMIT ORDER =====
@@ -3095,88 +3318,71 @@
             const governorate = document.getElementById('custGovernorate').value;
             const district = document.getElementById('custDistrict').value;
             const address = document.getElementById('custAddress').value.trim();
-            const date = document.getElementById('deliveryDate').value;
-
-            if (!name || !phone || !governorate || !district || !address) {
-                alert('Please fill in all required fields (marked with *).');
-                return;
-            }
-
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Processing...';
-
+            if (!name || !phone || !governorate || !district || !address) { alert('Please fill in all required fields (marked with *).'); return; }
+            const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.textContent = 'Processing...';
             const email = document.getElementById('custEmail').value;
             const notes = document.getElementById('custNotes').value;
             const time = document.getElementById('deliveryTime').value;
+            const date = document.getElementById('deliveryDate').value;
             const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
             const mapLink = locationData ? `https://maps.google.com/?q=${locationData.lat},${locationData.lng}` : 'Not provided';
             const itemsList = cart.map(i => `• ${i.name} × ${i.qty} = ${i.price * i.qty} EGP`).join('\n');
-
-            const message = `
-✦ NEW ORDER — SEDRA STORES ✦
-
-👤 Customer: ${name}
-📞 Phone: ${phone}
-📧 Email: ${email || 'N/A'}
-
-📍 Address:
-${governorate}${district ? ', ' + district : ''}
-${address}
-${notes ? 'Notes: ' + notes : ''}
-
-🗺 Map: ${mapLink}
-
-📦 Order Items:
-${itemsList}
-
-💰 Total: ${total} EGP
-
-📅 Delivery: ${date} — ${time || 'Flexible'}
-        `.trim();
-
+            const message = `✦ NEW ORDER — SEDRA STORES ✦\n\n👤 Customer: ${name}\n📞 Phone: ${phone}\n📧 Email: ${email || 'N/A'}\n\n📍 Address:\n${governorate}${district ? ', ' + district : ''}\n${address}\n${notes ? 'Notes: ' + notes : ''}\n\n🗺 Map: ${mapLink}\n\n📦 Order Items:\n${itemsList}\n\n💰 Total: ${total} EGP\n\n📅 Delivery: ${date} — ${time || 'Flexible'}`.trim();
             const order = { name, phone, governorate, district, address, items: [...cart], total, date, status: 'pending', created: new Date().toLocaleString() };
-            orders.push(order);
-            localStorage.setItem('sedra_orders', JSON.stringify(orders));
-
+            orders.push(order); localStorage.setItem('sedra_orders', JSON.stringify(orders));
             try {
                 if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
-                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message })
-                    });
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }) });
                 }
             } catch (e) { console.log('Telegram error:', e); }
-
-            cart = [];
-            updateCartUI();
-            closeCheckout();
+            cart = []; updateCartUI(); closeCheckout();
             document.getElementById('successOverlay').classList.add('open');
-            btn.disabled = false;
-            btn.textContent = '✦   Place Order   ✦';
-            ['custName', 'custPhone', 'custEmail', 'custGovernorate', 'custDistrict', 'custAddress', 'custNotes', 'deliveryDate'].forEach(id => {
-                document.getElementById(id).value = '';
-            });
-            document.getElementById('deliveryTime').selectedIndex = 0;
+            btn.disabled = false; btn.textContent = '✦   Place Order   ✦';
+            ['custName', 'custPhone', 'custEmail', 'custGovernorate', 'custAddress', 'custNotes', 'deliveryDate'].forEach(id => { document.getElementById(id).value = ''; });
+            document.getElementById('custDistrict').value = ''; document.getElementById('deliveryTime').selectedIndex = 0;
             document.getElementById('custDistrict').innerHTML = '<option value="">Select Governorate first</option>';
             document.getElementById('custDistrict').disabled = true;
-            locationData = null;
-            document.getElementById('locationDisplay').classList.remove('show');
+            locationData = null; document.getElementById('locationDisplay').classList.remove('show');
+        }
+        function closeSuccess() { document.getElementById('successOverlay').classList.remove('open'); }
+
+        // ===== LOGIN =====
+        function openLogin() {
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginOverlay').classList.add('open');
+            setTimeout(() => document.getElementById('loginUser').focus(), 400);
+        }
+        function closeLogin() { document.getElementById('loginOverlay').classList.remove('open'); }
+        function doLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                closeLogin();
+                setTimeout(() => openAdmin(), 200);
+            } else {
+                document.getElementById('loginError').classList.add('show');
+                document.getElementById('loginPass').value = '';
+                document.getElementById('loginPass').focus();
+                // Shake animation
+                const box = document.querySelector('.login-box');
+                box.style.animation = 'none'; box.offsetHeight;
+                box.style.animation = 'shake 0.4s ease';
+            }
         }
 
-        function closeSuccess() {
-            document.getElementById('successOverlay').classList.remove('open');
-        }
+        // Shake keyframes
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `@keyframes shake{0%,100%{transform:translateX(0) scale(1)}20%{transform:translateX(-8px) scale(1)}40%{transform:translateX(8px) scale(1)}60%{transform:translateX(-5px) scale(1)}80%{transform:translateX(5px) scale(1)}}`;
+        document.head.appendChild(shakeStyle);
 
         // ===== ADMIN =====
         function openAdmin() {
             document.getElementById('adminOverlay').classList.add('open');
             renderAdmin();
         }
-        function closeAdmin() {
-            document.getElementById('adminOverlay').classList.remove('open');
-        }
+        function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
         function renderAdmin() {
             const od = JSON.parse(localStorage.getItem('sedra_orders') || '[]');
             const total = od.reduce((s, o) => s + o.total, 0);
@@ -3194,20 +3400,19 @@ ${itemsList}
                 noOrders.style.display = 'none';
                 document.querySelector('.orders-table').style.display = 'table';
                 tbody.innerHTML = od.map((o, i) => `
-                <tr>
-                    <td>#${i + 1}</td><td>${o.name}</td><td>${o.phone}</td><td>${o.governorate || '-'}</td><td>${o.district || '-'}</td>
-                    <td>${o.items.map(it => it.name).join(', ')}</td>
-                    <td>${o.total} EGP</td><td>${o.created}</td>
-                    <td>
-                        <select onchange="updateStatus(${i},this.value)"
-                            style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;font-size:0.72rem;cursor:pointer">
-                            <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Pending</option>
-                            <option value="confirmed" ${o.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-                            <option value="delivered" ${o.status === 'delivered' ? 'selected' : ''}>Delivered</option>
-                        </select>
-                    </td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>#${i + 1}</td><td>${o.name}</td><td>${o.phone}</td>
+                        <td>${o.governorate || '-'}</td><td>${o.district || '-'}</td>
+                        <td>${o.items.map(it => it.name).join(', ')}</td>
+                        <td>${o.total} EGP</td><td>${o.created}</td>
+                        <td>
+                            <select onchange="updateStatus(${i},this.value)" style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 8px;font-size:0.72rem;cursor:pointer">
+                                <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="confirmed" ${o.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                                <option value="delivered" ${o.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                            </select>
+                        </td>
+                    </tr>`).join('');
             }
         }
         function updateStatus(index, status) {
@@ -3216,23 +3421,32 @@ ${itemsList}
             localStorage.setItem('sedra_orders', JSON.stringify(od));
         }
 
+        // ===== DELETE ORDERS =====
+        function openDeleteConfirm() {
+            document.getElementById('deleteConfirmOverlay').classList.add('open');
+        }
+        function closeDeleteConfirm() {
+            document.getElementById('deleteConfirmOverlay').classList.remove('open');
+        }
+        function confirmDeleteOrders() {
+            localStorage.removeItem('sedra_orders');
+            orders = [];
+            closeDeleteConfirm();
+            renderAdmin();
+        }
+
         // ===== PARALLAX =====
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             if (scrolled < window.innerHeight) {
-                const o1 = document.querySelector('.ornament-1');
-                const o2 = document.querySelector('.ornament-2');
+                const o1 = document.querySelector('.ornament-1'); const o2 = document.querySelector('.ornament-2');
                 if (o1) o1.style.transform = `translateY(${scrolled * 0.3}px)`;
                 if (o2) o2.style.transform = `translateY(${scrolled * -0.2}px)`;
             }
         });
 
         // ===== INIT =====
-        renderProducts();
-        renderSlider();
-        updateCartUI();
-        bindTiltCards();
-        bindCursorHover();
+        renderProducts(); renderSlider(); updateCartUI(); bindTiltCards(); bindCursorHover();
     </script>
 </body>
 
